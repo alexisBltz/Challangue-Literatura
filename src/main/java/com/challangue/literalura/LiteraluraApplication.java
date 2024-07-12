@@ -1,6 +1,7 @@
 package com.challangue.literalura;
 
-import Principal.Principal;
+import com.challangue.literalura.Principal.Principal;
+import com.challangue.literalura.services.ConsumirAPI;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
