@@ -19,33 +19,49 @@ public class Principal {
     private ConvierteDatos conversor = new ConvierteDatos();
 
     public void mostrarMenu() {
-        //getDatosSerie();
-        System.out.println("Ingrese el libro que esta buscando");
-        var libroBuscado = teclado.nextLine().toLowerCase().replace(" ","%20");
-        System.out.println("nombre dle libro es: "+ libroBuscado);
+        var opcion = -1;
+        while (opcion != 0) {
+            var menu = """
+                    1 - Buscar libro por título
+                    2 - Listar libros registrados
+                    3 - Listar autores registrados
+                    4 - Listar autores vivos en un determinado año
+                    5 - Listar libros por idioma
+                    0 - Salir
+                    """;
+            System.out.println(menu);
+            opcion = teclado.nextInt();
+            teclado.nextLine();
 
-        String json =consumoApi.obtenerDatos(URL_BASE+"?search="+libroBuscado);
-        System.out.println("URL BASE: "+URL_BASE+"?search="+libroBuscado);
+            switch (opcion) {
+                case 1:
+                    buscarLibro();
+            }
 
 
-        DatosResult datos = conversor.obtenerDatos(json, DatosResult.class);
-        System.out.println(datos);
-
-
+        }
     }
-    private DatosResult getDatosSerie(){
+    private void buscarLibro() {
+        //Obtendremos la primera opcion del libro
+        DatosLibro datosLibro = getDatosSerie().libro().get(0);
+        System.out.println(datosLibro);
+    }
+
+    private DatosResult getDatosSerie () {
         //Vamos a abordar el problema que de la url tengo que entrar a results
 
         System.out.println("Ingrese el libro que esta buscando");
-        var libroBuscado = teclado.nextLine().toLowerCase().replace(" ","%20");
-        System.out.println("nombre dle libro es: "+ libroBuscado);
+        var libroBuscado = teclado.nextLine().toLowerCase().replace(" ", "%20");
 
-        var json =consumoApi.obtenerDatos(URL_BASE+"?search="+libroBuscado);
-        System.out.println("URL BASE: "+URL_BASE+"?search="+libroBuscado);
-
+        var json = consumoApi.obtenerDatos(URL_BASE + "?search=" + libroBuscado);
+        //System.out.println("URL BASE: "+URL_BASE+"?search="+libroBuscado);
 
         DatosResult datos = conversor.obtenerDatos(json, DatosResult.class);
-        System.out.println(datos.libro());
+        //System.out.println(datos.libro());
         return datos;
     }
+
+
 }
+
+

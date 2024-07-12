@@ -14,8 +14,11 @@ public class Libro {
 
     private String titulo;
 
-    @Transient
-    private String lenguajes;
+
+    @ElementCollection(targetClass = Lenguaje.class)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "lenguaje")
+    private List<Lenguaje> lenguajes;
 
     @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Autor> autores;
@@ -46,10 +49,11 @@ public class Libro {
 
     public Libro() {}
 
-    public Libro(Long id, String titulo, List<Autor> autores) {
+    public Libro(Long id, String titulo, List<Autor> autores, List<Lenguaje> lenguajes) {
         this.id = id;
         this.titulo = titulo;
         this.autores = autores;
+        this.lenguajes = lenguajes;
     }
     public Libro (DatosLibro datosLibro){
         this.id = datosLibro.id();
