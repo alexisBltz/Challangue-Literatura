@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.challangue.literalura.model.Autor;
-import com.challangue.literalura.model.DatosLibro;
-import com.challangue.literalura.model.DatosResult;
-import com.challangue.literalura.model.Libro;
+import com.challangue.literalura.model.*;
 import com.challangue.literalura.repository.AutorRepository;
 import com.challangue.literalura.repository.LibroRepository;
 import com.challangue.literalura.services.ConsumirAPI;
@@ -62,10 +59,25 @@ public class Principal {
         }
     }
 
-    private void obtenerLibrosIdioma() {
-        System.out.println("Ingrese el idioma que desea listar: ");
+    public void obtenerLibrosIdioma() {
+        System.out.println("Ingrese el idioma que desea listar (es/en): ");
         var idioma = teclado.nextLine();
-        libroRepository.obtenerIdiomas(idioma);
+
+        try {
+            Lenguaje idiomaLenguaje = Lenguaje.fromString(idioma);
+            List<Libro> librosEnIdioma = libroRepository.obtenerIdiomas(idiomaLenguaje);
+
+            if (librosEnIdioma.isEmpty()) {
+                System.out.println("No se encontraron libros en el idioma " + idiomaLenguaje);
+            } else {
+                System.out.println("Libros en el idioma " + idiomaLenguaje + ":");
+                for (Libro libro : librosEnIdioma) {
+                    System.out.println(libro.getTitulo());
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Idioma no válido. Por favor, ingrese 'es' para español o 'en' para inglés.");
+        }
     }
 
     private void mostrarVivos() {

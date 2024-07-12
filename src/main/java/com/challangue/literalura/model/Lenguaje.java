@@ -14,7 +14,7 @@ public enum Lenguaje {
     //Convertir la categoria a string
     public static Lenguaje fromString(String text) {
         for (Lenguaje lenguaje: Lenguaje.values()){
-            if (lenguaje.lenguajeGutendex.equalsIgnoreCase(text)){
+            if (lenguaje.lenguajeGutendex.equalsIgnoreCase(text) || lenguaje.lenguajeEspañol.equalsIgnoreCase(text)){
                 return lenguaje;
             }
         }
