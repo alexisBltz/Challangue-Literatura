@@ -4,7 +4,11 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 @Entity
 @Table(name= "libros")
 public class Libro {
@@ -17,7 +21,7 @@ public class Libro {
 
     @ElementCollection(targetClass = Lenguaje.class)
     @Enumerated(EnumType.STRING)
-    @Column(name = "lenguaje")
+    //@Column(name = "lenguaje")
     private List<Lenguaje> lenguajes;
 
     @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -58,5 +62,9 @@ public class Libro {
     public Libro (DatosLibro datosLibro){
         this.id = datosLibro.id();
         this.titulo = datosLibro.titulo();
+        this.autores = datosLibro.autores().stream()
+                .map(a -> new Autor( a.nombreAutor(), a.añoNac(), a.añoDef(), this)).collect(Collectors.toList());
+        this.lenguajes = datosLibro.lenguaje().stream()
+                .map(Lenguaje::fromString).collect(Collectors.toList());
     }
 }

@@ -46,8 +46,8 @@ public class Autor {
     public Autor() {
     }
 
-    public Autor(Long id, String nombreAutor, String añoNac, String añoDef, Libro libro) {
-        this.id = id;
+    public Autor( String nombreAutor, String añoNac, String añoDef, Libro libro) {
+
         this.nombreAutor = nombreAutor;
         this.añoNac = añoNac;
         this.añoDef = añoDef;

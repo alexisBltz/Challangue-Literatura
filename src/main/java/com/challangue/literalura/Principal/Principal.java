@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 import com.challangue.literalura.model.DatosLibro;
 import com.challangue.literalura.model.DatosResult;
+import com.challangue.literalura.model.Libro;
+import com.challangue.literalura.repository.LibroRepository;
 import com.challangue.literalura.services.ConsumirAPI;
 import com.challangue.literalura.services.ConvierteDatos;
 
@@ -12,11 +14,14 @@ public class Principal {
 
     private Scanner teclado = new Scanner(System.in);
     private ConsumirAPI consumoApi = new ConsumirAPI();
-    private final String URL_BASE = "https://gutendex.com/books/" +
-            "" +
-            "" +
-            "";
+    private final String URL_BASE = "https://gutendex.com/books/";
     private ConvierteDatos conversor = new ConvierteDatos();
+
+    private LibroRepository repository;
+
+    public Principal(LibroRepository repository) {
+        this.repository = repository;
+    }
 
     public void mostrarMenu() {
         var opcion = -1;
@@ -44,7 +49,9 @@ public class Principal {
     private void buscarLibro() {
         //Obtendremos la primera opcion del libro
         DatosLibro datosLibro = getDatosSerie().libro().get(0);
+        Libro libro = new Libro(datosLibro);
         System.out.println(datosLibro);
+        repository.save(libro);
     }
 
     private DatosResult getDatosSerie () {
