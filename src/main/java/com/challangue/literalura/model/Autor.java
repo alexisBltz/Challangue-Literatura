@@ -42,6 +42,16 @@ public class Autor {
     public void setAñoDef(String añoDef) {
         this.añoDef = añoDef;
     }
+    @Override
+    public String toString() {
+        return
+                "id=" + id +
+                ", nombreAutor='" + nombreAutor + '\'' +
+                ", añoNac='" + añoNac + '\'' +
+                ", añoDef='" + añoDef + '\'';
+
+    }
+
 
     public Autor() {
     }

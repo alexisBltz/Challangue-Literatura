@@ -19,7 +19,7 @@ public class Libro {
     private String titulo;
 
 
-    @ElementCollection(targetClass = Lenguaje.class)
+    @ElementCollection(targetClass = Lenguaje.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     //@Column(name = "lenguaje")
     private List<Lenguaje> lenguajes;
@@ -49,6 +49,16 @@ public class Libro {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+
+    @Override
+    public String toString() {
+        return
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", lenguajes=" + lenguajes +
+                ", autores=" + autores;
     }
 
     public Libro() {}

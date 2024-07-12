@@ -1,11 +1,14 @@
 package com.challangue.literalura.Principal;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import com.challangue.literalura.model.Autor;
 import com.challangue.literalura.model.DatosLibro;
 import com.challangue.literalura.model.DatosResult;
 import com.challangue.literalura.model.Libro;
+import com.challangue.literalura.repository.AutorRepository;
 import com.challangue.literalura.repository.LibroRepository;
 import com.challangue.literalura.services.ConsumirAPI;
 import com.challangue.literalura.services.ConvierteDatos;
@@ -17,11 +20,13 @@ public class Principal {
     private final String URL_BASE = "https://gutendex.com/books/";
     private ConvierteDatos conversor = new ConvierteDatos();
 
-    private LibroRepository repository;
+    private LibroRepository libroRepository;
+    private AutorRepository autorRepository;
     private Optional<Libro> libroBuscado;
 
-    public Principal(LibroRepository repository) {
-        this.repository = repository;
+    public Principal(LibroRepository repository, AutorRepository repository2) {
+        this.libroRepository = repository;
+        this.autorRepository= repository2;
     }
 
     public void mostrarMenu() {
@@ -42,10 +47,50 @@ public class Principal {
             switch (opcion) {
                 case 1:
                     buscarLibro();
+                case 2:
+                    mostrarTodosLibros();
+                case 3:
+                    mostrarAutoresRegistrados();
+                case 4:
+                    mostrarVivos();
+                case 5:
+                    obtenerLibrosIdioma();
+
             }
 
 
         }
+    }
+
+    private void obtenerLibrosIdioma() {
+        System.out.println("Ingrese el idioma que desea listar: ");
+        var idioma = teclado.nextLine();
+        libroRepository.obtenerIdiomas(idioma);
+    }
+
+    private void mostrarVivos() {
+        System.out.println("Ingrese el año de búsqueda:");
+        var añoBusqueda = teclado.nextLine();
+        List<Autor> autoresVivos = autorRepository.obtenerVivosPorAño(añoBusqueda);
+
+        if (autoresVivos.isEmpty()) {
+            System.out.println("No se encontraron autores vivos en el año " + añoBusqueda);
+        } else {
+            System.out.println("Autores vivos en el año " + añoBusqueda + ":");
+            for (Autor autor : autoresVivos) {
+                System.out.println(autor.getNombreAutor());
+            }
+        }
+    }
+
+    private void mostrarAutoresRegistrados(){
+        List<Autor> autores = autorRepository.findAll();
+        autores.forEach(System.out::println);
+    }
+
+    private void mostrarTodosLibros(){
+        List<Libro> libros = libroRepository.findAll();
+        libros.forEach(System.out::println);
     }
     private void buscarLibro() {
         DatosLibro datosLibro = getDatosLibro();
@@ -56,7 +101,7 @@ public class Principal {
 
         Libro libroBuscado = new Libro(datosLibro);
         System.out.println(libroBuscado);
-        repository.save(libroBuscado);
+        libroRepository.save(libroBuscado);
     }
 
     private DatosLibro getDatosLibro() {
