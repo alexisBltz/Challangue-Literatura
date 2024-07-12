@@ -8,9 +8,10 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record DatosLibro(
         //Json alias nos permite leer y con jsonproperty nos permite leer y escribir
-        @JsonAlias("Id") String id,
+        @JsonAlias("Id") Long id,
         @JsonAlias("title") String titulo,
-        @JsonAlias("authors") List<DatosAutor> autores
+        @JsonAlias("authors") List<DatosAutor> autores,
+        @JsonAlias("languages") List<String> lenguaje
 ) {
 
 }
