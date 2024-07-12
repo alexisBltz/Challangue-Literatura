@@ -1,6 +1,6 @@
 package com.challangue.literalura.Principal;
 
-import java.net.URL;
+import java.util.Optional;
 import java.util.Scanner;
 
 import com.challangue.literalura.model.DatosLibro;
@@ -18,6 +18,7 @@ public class Principal {
     private ConvierteDatos conversor = new ConvierteDatos();
 
     private LibroRepository repository;
+    private Optional<Libro> libroBuscado;
 
     public Principal(LibroRepository repository) {
         this.repository = repository;
@@ -47,25 +48,30 @@ public class Principal {
         }
     }
     private void buscarLibro() {
-        //Obtendremos la primera opcion del libro
-        DatosLibro datosLibro = getDatosSerie().libro().get(0);
-        Libro libro = new Libro(datosLibro);
-        System.out.println(datosLibro);
-        repository.save(libro);
+        DatosLibro datosLibro = getDatosLibro();
+        if (datosLibro == null) {
+            System.out.println("No se encontró el libro.");
+            return;
+        }
+
+        Libro libroBuscado = new Libro(datosLibro);
+        System.out.println(libroBuscado);
+        repository.save(libroBuscado);
     }
 
-    private DatosResult getDatosSerie () {
-        //Vamos a abordar el problema que de la url tengo que entrar a results
-
-        System.out.println("Ingrese el libro que esta buscando");
+    private DatosLibro getDatosLibro() {
+        System.out.println("Ingrese el libro que está buscando");
         var libroBuscado = teclado.nextLine().toLowerCase().replace(" ", "%20");
 
         var json = consumoApi.obtenerDatos(URL_BASE + "?search=" + libroBuscado);
-        //System.out.println("URL BASE: "+URL_BASE+"?search="+libroBuscado);
-
+        // los resultados
         DatosResult datos = conversor.obtenerDatos(json, DatosResult.class);
-        //System.out.println(datos.libro());
-        return datos;
+        // verificar si hay libros en la lista uwu
+        if (datos.libro() == null || datos.libro().isEmpty()) {
+            return null;
+        }
+        // escogemos el primero
+        return datos.libro().get(0);
     }
 
 
