@@ -30,7 +30,7 @@ public class Principal {
         var opcion = -1;
         while (opcion != 0) {
             var menu = """
-                    1 - Buscar libro por título
+                    1 - Agregar libro por título
                     2 - Listar libros registrados
                     3 - Listar autores registrados
                     4 - Listar autores vivos en un determinado año
@@ -44,23 +44,29 @@ public class Principal {
             switch (opcion) {
                 case 1:
                     buscarLibro();
+                    break;
                 case 2:
                     mostrarTodosLibros();
+                    break;
                 case 3:
                     mostrarAutoresRegistrados();
+                    break;
                 case 4:
                     mostrarVivos();
+                    break;
                 case 5:
                     obtenerLibrosIdioma();
-
+                    break;
+                case 0:
+                    System.out.println("Cerrando biblioteca..");
+                default:
+                    System.out.println("Opción invalida");
             }
-
-
         }
     }
 
     public void obtenerLibrosIdioma() {
-        System.out.println("Ingrese el idioma que desea listar (es/en): ");
+        System.out.println("Ingrese el idioma que desea listar: ");
         var idioma = teclado.nextLine();
 
         try {
@@ -112,6 +118,7 @@ public class Principal {
         }
 
         Libro libroBuscado = new Libro(datosLibro);
+        System.out.println("Libro agregado con éxito");
         System.out.println(libroBuscado);
         libroRepository.save(libroBuscado);
     }

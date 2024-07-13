@@ -55,10 +55,10 @@ public class Libro {
     @Override
     public String toString() {
         return
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", lenguajes=" + lenguajes +
-                ", autores=" + autores;
+                "Id=" + id +
+                " Titulo de la obra: '" + titulo + '\'' +
+                " Lenguajes: " + lenguajes +
+                " Autores: " + autores;
     }
 
     public Libro() {}

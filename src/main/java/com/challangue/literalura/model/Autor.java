@@ -45,10 +45,10 @@ public class Autor {
     @Override
     public String toString() {
         return
-                "id=" + id +
-                ", nombreAutor='" + nombreAutor + '\'' +
-                ", añoNac='" + añoNac + '\'' +
-                ", añoDef='" + añoDef + '\'';
+                "Id=" + id +
+                ", Nombre del Autor: '" + nombreAutor + '\'' +
+                ", Año de nacimiento: '" + añoNac + '\'' +
+                ", Año de defunción: '" + añoDef + '\'';
 
     }
 
